@@ -1,9 +1,25 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
-// and what to do when importing types
+import type { D1Database, KVNamespace, DurableObjectNamespace } from '@cloudflare/workers-types';
+
 declare namespace App {
-	// interface Locals {}
+	interface Locals {
+		session: Session;
+		user: User;
+	}
 	// interface PageData {}
-	// interface Error {}
-	// interface Platform {}
+	interface Error {
+		status?: number;
+		message?: string;
+		trace?: string;
+	}
+	interface Platform {
+		env: {
+			DB: D1Database;
+			KV: KVNamespace;
+			OBJECTS: DurableObjectNamespace;
+		};
+		context: {
+			waitUntil(promise: Promise<any>): void;
+		};
+		caches: CacheStorage & { default: Cache };
+	}
 }
